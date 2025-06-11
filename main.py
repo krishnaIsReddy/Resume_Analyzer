@@ -18,7 +18,8 @@ from jinja2 import Environment, FileSystemLoader
 #import tempfile
 import pdfkit
 
-load_dotenv()
+#load_dotenv()
+api_key = st.secrets["GEMINI_AI_API"]
 
 st.set_page_config(page_title="AI Resume Fixer", layout="centered")
 st.title("AI Resume Fixer")
@@ -80,7 +81,7 @@ def generate(resume_file):
 
     """
     client = genai.Client(
-        api_key=os.getenv("GEMINI_AI_API"),
+        api_key=st.secrets["GEMINI_AI_API"],
     )
 
     model = "gemini-2.5-flash-preview-04-17"
@@ -247,7 +248,7 @@ def generate_idea(resume_file):
     """
 
     client = genai.Client(
-        api_key=os.getenv("GEMINI_AI_API"),
+        api_key=st.secrets["GEMINI_AI_API"],
     )
 
     model = "gemini-2.5-flash-preview-04-17"
