@@ -146,7 +146,7 @@ def generate(resume_file):
 
 
 def transform_pdf(resume_data):
-    env = Environment(loader=FileSystemLoader("."))
+    env = Environment(loader=FileSystemLoader("template"))
     template = env.get_template("resume_template.html")
     html_out = template.render(**resume_data)
 
