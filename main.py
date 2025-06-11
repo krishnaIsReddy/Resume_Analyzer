@@ -14,9 +14,9 @@ import unicodedata
 import json
 import re
 from jinja2 import Environment, FileSystemLoader
-#from weasyprint import HTML
+from weasyprint import HTML
 #import tempfile
-import pdfkit
+#import pdfkit
 
 #load_dotenv()
 api_key = st.secrets["GEMINI_AI_API"]
@@ -150,10 +150,13 @@ def transform_pdf(resume_data):
     template = env.get_template("resume_template.html")
     html_out = template.render(**resume_data)
 
-    config = pdfkit.configuration(wkhtmltopdf=r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
-    pdf_bytes = pdfkit.from_string(html_out, False, configuration=config)
-    
-    return pdf_bytes
+    #config = pdfkit.configuration(wkhtmltopdf=r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
+    #pdf_bytes = pdfkit.from_string(html_out, False, configuration=config)
+    pdf_io = io.BytesIO()
+    HTML(string = html_out).write_pdf(pdf_io)
+    pdf_io.seek(0)
+
+    return pdf_io.read()
 
 
 
