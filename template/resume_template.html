@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }} - Resume</title>
+    <style>
+        body {
+            font-family: "Georgia", serif;
+            margin: 50px;
+            font-size: 12pt;
+            color: #000;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24pt;
+        }
+        .contact {
+            text-align: center;
+            font-size: 10pt;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 14pt;
+            border-bottom: 1px solid #000;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .entry {
+            margin-bottom: 10px;
+        }
+        .entry-title {
+            font-weight: bold;
+            font-style: italic;
+        }
+        .entry-subtitle {
+            font-style: italic;
+        }
+        .entry-date-location {
+            float: right;
+            text-align: right;
+            font-size: 10pt;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .clear {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+
+<h1>{{ name }}</h1>
+<p class="contact">{{ contact }}</p>
+
+{% if education %}
+<h2>Education</h2>
+<div class="section">
+    {% for edu in education %}
+    <div class="entry">
+        <span class="entry-title">{{ edu.institution }}</span>
+        <span class="entry-date-location">{{ edu.location or "" }} {{ edu.date }}</span>
+        <div class="clear"></div>
+        <div class="entry-subtitle">{{ edu.degree or "" }}{{ ", " + edu.major if edu.major else "" }}</div>
+        <div>{{ edu.details or "" }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if experience %}
+<h2>Experience</h2>
+<div class="section">
+    {% for exp in experience %}
+    <div class="entry">
+        <span class="entry-title">{{ exp.title }}</span>
+        <span class="entry-date-location">{{ exp.date }}</span>
+        <div class="clear"></div>
+        <div class="entry-subtitle">{{ exp.company }}{{ ", " + exp.location if exp.location else "" }}</div>
+        <ul>
+            {% for bullet in exp.description %}
+            {% if bullet.strip() != "" %}
+            <li>{{ bullet.strip() }}</li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if projects %}
+<h2>Projects</h2>
+<div class="section">
+    {% for proj in projects %}
+    <div class="entry">
+        <span class="entry-title">{{ proj.title }}</span>
+        <span class="entry-date-location">{{ proj.date or proj.dates }}</span>
+        <div class="clear"></div>
+        <div class="entry-subtitle">{{ proj.organization or "" }}</div>
+        <ul>
+            {% if proj.description is string %}
+                <li>{{proj.description }}</li>
+            {% else %}
+                {% for bullet in proj.description %} 
+                    {% if bullet.strip() != "" %}
+                    <li>{{ bullet.strip() }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if skills %}
+<h2>Technical Skills</h2>
+<div class="section">
+    <ul>
+        {% for skill in skills %}
+        <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if awards %}
+<h2>Awards</h2>
+<div class="section">
+    <ul>
+        {% for award in awards %}
+        <li>{{ award }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if activities %}
+<h2>Activities</h2>
+<div class="section">
+    {% for act in activities %}
+    <div class="entry">
+        <span class="entry-title">{{ act.title }}</span>
+        <span class="entry-date-location">{{ act.date or act.dates}}</span>
+        <div class="clear"></div>
+        {% if act.role %}
+        <div class="entry-subtitle">{{ act.role }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+</body>
+</html>
